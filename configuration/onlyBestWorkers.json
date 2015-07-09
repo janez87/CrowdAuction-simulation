@@ -1,0 +1,34 @@
+{
+  "numberOfRuns": 1,
+  "workerConfiguration": {
+    "number": 100,
+    "meanRange": [-1, 1],
+    "varianceRange": [1, 2],
+    "slopeRange": [0.5, 1],
+    "numberOfTasksRange": [10, 10]
+  },
+  "workers": [],
+  "numberOfSkills": 5,
+  "simulations": [{
+    "id": "BestWorkers",
+    "workerConfiguration": {
+      "number": 100,
+      "meanRange": [-1, 1],
+      "varianceRange": [1, 2],
+      "slopeRange": [0.5, 1],
+      "numberOfTasksRange": [10, 10]
+    },
+    "workers": [],
+    "tasksConfiguration": {
+      "baseProfitRange": [10, 10],
+      "number": 1,
+      "numberOfWorkersRange": [10, 20]
+    },
+    "tasks": [],
+    "requesterConfiguration": {
+      "budget": 6000,
+      "strategy": "BestWorkers"
+
+    }
+  }]
+}

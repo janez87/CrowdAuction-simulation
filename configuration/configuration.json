@@ -1,0 +1,160 @@
+{
+  "numberOfRuns": 50,
+  "workerConfiguration": {
+    "number": 100,
+    "meanRange": [-1, 1],
+    "varianceRange": [0.5, 1],
+    "slopeRange": [0.5, 1],
+    "numberOfTasksRange": [10, 10]
+  },
+  "workers": [],
+  "numberOfSkills": 3,
+  "simulations": [{
+    "id": "Random",
+    "workerConfiguration": {
+      "number": 100,
+      "meanRange": [-1, 1],
+      "varianceRange": [1, 2],
+      "slopeRange": [0.5, 1],
+      "numberOfTasksRange": [10, 10]
+    },
+    "workers": [],
+    "tasksConfiguration": {
+      "baseProfitRange": [3, 30],
+      "number": 250,
+      "numberOfWorkersRange": [1, 1]
+    },
+    "tasks": [],
+    "requesterConfiguration": {
+      "budget": 6000,
+      "strategy": "Random"
+
+    }
+  }, {
+    "id": "Cheapest",
+    "workerConfiguration": {
+      "number": 100,
+      "meanRange": [-1, 1],
+      "varianceRange": [1, 2],
+      "slopeRange": [0.5, 1],
+      "numberOfTasksRange": [10, 10]
+    },
+    "workers": [],
+    "tasksConfiguration": {
+      "baseProfitRange": [3, 30],
+      "number": 250,
+      "numberOfWorkersRange": [1, 1]
+    },
+    "tasks": [],
+    "requesterConfiguration": {
+      "budget": 6000,
+      "strategy": "Cheapest"
+
+    }
+  }, {
+    "id": "MostExpensive",
+    "workerConfiguration": {
+      "number": 100,
+      "meanRange": [-1, 1],
+      "varianceRange": [1, 2],
+      "slopeRange": [0.5, 1],
+      "numberOfTasksRange": [10, 10]
+    },
+    "workers": [],
+    "tasksConfiguration": {
+      "baseProfitRange": [3, 30],
+      "number": 250,
+      "numberOfWorkersRange": [1, 1]
+    },
+    "tasks": [],
+    "requesterConfiguration": {
+      "budget": 6000,
+      "strategy": "MostExpensive"
+
+    }
+  }, {
+    "id": "BestWorkers",
+    "workerConfiguration": {
+      "number": 100,
+      "meanRange": [-1, 1],
+      "varianceRange": [1, 2],
+      "slopeRange": [0.5, 1],
+      "numberOfTasksRange": [10, 10]
+    },
+    "workers": [],
+    "tasksConfiguration": {
+      "baseProfitRange": [3, 30],
+      "number": 250,
+      "numberOfWorkersRange": [1, 1]
+    },
+    "tasks": [],
+    "requesterConfiguration": {
+      "budget": 6000,
+      "strategy": "BestWorkers"
+
+    }
+  }, {
+    "id": "NearestCheapest",
+    "workerConfiguration": {
+      "number": 100,
+      "meanRange": [-1, 1],
+      "varianceRange": [1, 2],
+      "slopeRange": [0.5, 1],
+      "numberOfTasksRange": [10, 10]
+    },
+    "workers": [],
+    "tasksConfiguration": {
+      "baseProfitRange": [3, 30],
+      "number": 250,
+      "numberOfWorkersRange": [1, 1]
+    },
+    "tasks": [],
+    "requesterConfiguration": {
+      "budget": 6000,
+      "strategy": "NearestCheapest"
+
+    }
+  }, {
+    "id": "NearestExpensive",
+    "workerConfiguration": {
+      "number": 100,
+      "meanRange": [-1, 1],
+      "varianceRange": [1, 2],
+      "slopeRange": [0.5, 1],
+      "numberOfTasksRange": [10, 10]
+    },
+    "workers": [],
+    "tasksConfiguration": {
+      "baseProfitRange": [3, 30],
+      "number": 250,
+      "numberOfWorkersRange": [1, 1]
+    },
+    "tasks": [],
+    "requesterConfiguration": {
+      "budget": 6000,
+      "strategy": "NearestExpensive"
+
+    }
+  }, {
+    "id": "NearestAverage",
+    "workerConfiguration": {
+      "number": 100,
+      "meanRange": [-1, 1],
+      "varianceRange": [1, 2],
+      "slopeRange": [0.5, 1],
+      "numberOfTasksRange": [10, 10]
+    },
+    "workers": [],
+    "tasksConfiguration": {
+      "baseProfitRange": [3, 30],
+      "number": 250,
+      "numberOfWorkersRange": [1, 1]
+    },
+    "tasks": [],
+    "requesterConfiguration": {
+      "budget": 6000,
+      "strategy": "NearestAverage"
+
+    }
+  }]
+}
