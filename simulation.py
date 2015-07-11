@@ -112,7 +112,9 @@ for s in configuration["simulations"]:
             bids = []
             for x in xrange(0, len(biddingWorkers)):
                 if(numpy.dot(biddingWorkers[x].skills, task.skills) > 0):
-                    bids.append(biddingWorkers[x].bidTask(task).amount)
+                    bid = biddingWorkers[x].bidTask(task)
+                    if bid != None:
+                        bids.append(bid.amount)
 
             winners = req.selectWinners(
                 task, Strategy[s["requesterConfiguration"]["strategy"]])

@@ -1,4 +1,6 @@
 import numpy
+import math
+import random
 
 
 class Task:
@@ -8,9 +10,18 @@ class Task:
     def __init__(self, baseProfit, numberOfWorkers, skills):
 
         # Task features
-        self.baseProfit = baseProfit
         self.numberOfWorkers = numberOfWorkers
         self.skills = skills
+
+        # Uber scenario
+        self.startX = random.uniform(0, 1)
+        self.startY = random.uniform(0, 1)
+
+        self.endX = random.uniform(0, 1)
+        self.endY = random.uniform(0, 1)
+
+        self.baseProfit = dist = math.hypot(
+            self.endX - self.startX, self.endY - self.startY)
 
         # Task status
         self.workers = 0
@@ -33,7 +44,12 @@ class Task:
         selectedWorkerBids = filter(
             lambda x: x.worker in map(lambda y: y.worker, self.answers), bidsReceived)
 
-        cost = sum(map(lambda x: x.amount, selectedWorkerBids))
+        bestAnswer = filter(lambda x: x.worker.pickupQuality == max(
+            map(lambda x: x.worker.pickupQuality, self.answers)), self.answers)
+
+        cost = bestAnswer[0].worker.currentBid.amount + \
+            sum(map(lambda x: x.worker.getPartialCost(), filter(
+                lambda x: x.worker != bestAnswer[0].worker, selectedWorkerBids)))
 
         return cost
 
@@ -43,16 +59,20 @@ class Task:
         selectedWorkerBids = filter(
             lambda x: x.worker in map(lambda y: y.worker, self.answers), bidsReceived)
 
-        cost = sum(map(lambda x: x.amount, selectedWorkerBids)) / \
-            len(selectedWorkerBids)
+        bestAnswer = filter(lambda x: x.quality == max(
+            map(lambda x: x.quality, self.answers)), self.answers)
+
+        cost = bestAnswer[0].worker.currentBid.amount + \
+            sum(map(lambda x: x.worker.getPartialCost(), filter(
+                lambda x: x.worker != bestAnswer[0].worker, selectedWorkerBids)))
 
         return cost
 
     def getQuality(self):
-        quality = sum(map(lambda x: x.quality, self.answers)) / \
-            len(self.answers)
+        bestAnswer = filter(lambda x: x.worker.pickupQuality == max(
+            map(lambda x: x.worker.pickupQuality, self.answers)), self.answers)
 
-        return quality
+        return bestAnswer[0].quality
 
     def getObservedQuality(self):
         quality = sum(self.observedQualities) / \

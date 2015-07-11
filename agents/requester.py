@@ -42,13 +42,16 @@ class Requester:
             maxQuality = np.amax(map(lambda x: x.quality, answers))
 
         for a in answers:
+            observedQuality = 0
+            if maxQuality > 0:
+                observedQuality = a.quality / maxQuality
             if self.workersTable.has_key(a.worker.name):
                 self.workersTable[a.worker.name].append(
-                    {"bid": a.worker.currentBid.amount, "quality": a.quality / maxQuality})
+                    {"bid": task.baseProfit, "quality": observedQuality})
             else:
                 self.workersTable[a.worker.name] = [
-                    {"bid": a.worker.currentBid.amount, "quality": a.quality / maxQuality}]
-            observedQualities.append(a.quality / maxQuality)
+                    {"bid": task.baseProfit, "quality": observedQuality}]
+            observedQualities.append(observedQuality)
 
         task.observedQualities = observedQualities
         # print self.workersTable

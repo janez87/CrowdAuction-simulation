@@ -1,10 +1,14 @@
 import numpy
 import math
+import random
+import json
 from scipy import spatial
 from numpy.linalg import norm
 
 from objects.bid import Bid
 from objects.answer import Answer
+
+configuration = json.load(open('configuration/configuration.json'))
 
 
 class Worker:
@@ -17,6 +21,12 @@ class Worker:
         self.name = name
         self.maxTasks = maxTasks
         self.skills = skills
+
+        # Uber Scenario
+        self.x = random.uniform(0, 1)
+        self.y = random.uniform(0, 1)
+        self.efficiency = random.uniform(2, 5)
+        self.currentDistance = 0
 
         # Evaluation error
         self.mean = mean
@@ -37,18 +47,15 @@ class Worker:
         self.isBusy = False
 
     def estimateProfit(self, task):
-        error = numpy.random.normal(self.mean, self.variance)
-        estimatedProfit = task.baseProfit + error
+        error = math.hypot(task.startX - self.x, task.startY - self.y)
+
+        estimatedProfit = (task.baseProfit + error) * self.efficiency
+        self.currentDistance = error
 
         return estimatedProfit
 
     def bidTask(self, task):
         amount = self.estimateProfit(task)
-
-        if amount < 0:
-            amount = 1
-
-        amount = 0.01 + 0.99 * amount
 
         bid = Bid(self, task, amount)
         self.taskBidded += 1
@@ -58,20 +65,40 @@ class Worker:
         return bid
 
     def getEffort(self):
-        return self.currentBid.amount * self.slope
+        return self.slope
+
+    def getPartialCost(self):
+        return self.currentDistance * self.efficiency
 
     def performTask(self, task):
         self.isBusy = True
         workerSkills = self.skills
 
         dot = numpy.dot(workerSkills, task.skills)
-        delta = abs(task.baseProfit - self.currentBid.amount)
-        quality = (self.getEffort() * (dot)) / \
-            (task.baseProfit + delta)
-        #quality = (self.getEffort()) / task.baseProfit + dot / task.baseProfit
+        driveQuality = (self.getEffort() * (dot)) / \
+            (task.baseProfit)
+
+        pickupQuality = (self.getEffort() * (dot)) / \
+            (self.currentDistance)
+
+        quality = pickupQuality + driveQuality
+
+        dice = random.random()
+        if dice < configuration["incidents"]:
+            quality = 0
+            pickupQuality = 0
+            driveQuality = 0
+
+        self.pickupQuality = pickupQuality
+        self.driveQuality = driveQuality
 
         answer = Answer(self, task, quality)
         task.execute(answer)
         self.taskPerformed += 1
         self.profitDone += self.currentBid.amount
+
+        # Move the worker to the new location
+        self.x = task.endX
+        self.y = task.endY
+
         return answer

@@ -70,7 +70,7 @@ class PickingStrategy(object):
                     "slope": slope,
                     "intercept": intercept,
                     "pastQuality": pastQuality,
-                    "expectedQuality": slope * bid.amount + intercept,
+                    "expectedQuality": slope * task.baseProfit + intercept,
                     "amount": bid.amount
                 })
             else:
@@ -101,7 +101,7 @@ class PickingStrategy(object):
 
         if len(workers) < task.numberOfWorkers:
             deltas = map(
-                lambda x: {"delta": abs(task.baseProfit - x.amount), "worker": x.worker, "amount": x.amount}, bids)
+                lambda x: {"delta": x.worker.currentDistance, "worker": x.worker, "amount": x.amount}, bids)
             deltas = sorted(
                 deltas, key=lambda x: x["delta"])
             for d in deltas:
@@ -169,7 +169,7 @@ class PickingStrategy(object):
     def nearestAverage(cls, requester, bids, task):
         workers = []
         deltas = map(
-            lambda x: {"delta": abs(task.baseProfit - x.amount), "worker": x.worker, "amount": x.amount}, bids)
+            lambda x: {"delta": x.worker.currentDistance, "worker": x.worker, "amount": x.amount}, bids)
         deltas = sorted(
             deltas, key=lambda x: x["delta"])
         totalCost = 0
